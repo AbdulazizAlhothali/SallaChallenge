@@ -32,5 +32,5 @@ data class Data (
 	val mpn : String,
 	val gtin : String,
 	val favorite : String,
-	val starting_price : String
+	//val starting_price : String
 )
