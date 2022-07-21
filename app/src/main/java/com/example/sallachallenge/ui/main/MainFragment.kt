@@ -1,6 +1,5 @@
 package com.example.sallachallenge.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,9 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sallachallenge.R
+import coil.load
 import com.example.sallachallenge.databinding.MainFragmentBinding
-import com.example.sallachallenge.model.BaseStoreData
 import com.example.sallachallenge.paging.StorePagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,14 +31,19 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         adapter = StorePagingAdapter()
         binding.rvMain.layoutManager = LinearLayoutManager(context)
         binding.rvMain.setHasFixedSize(true)
         binding.rvMain.adapter = adapter
+        viewModel.setHeader("1328842359")
         viewModel.list.observe(viewLifecycleOwner){
-            Log.e("MyStore","${listOf(it)}")
+            Log.e("MyStore","$it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+        viewModel.getBrandData().observe(viewLifecycleOwner){
+            binding.tvDesc.text = it.brand.description
+            binding.ivCompany.load(it.brand.banner)
+            binding.ivLogo.load(it.brand.logo)
         }
         /*viewModel.getData().observe(viewLifecycleOwner){
             Log.e("MyStore","${listOf(it)}")

@@ -6,9 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.sallachallenge.R
 import com.example.sallachallenge.databinding.RecyclerViewItemBinding
-import com.example.sallachallenge.model.Data
+import com.example.sallachallenge.models.items.Data
 
 class StorePagingAdapter: PagingDataAdapter<Data, StorePagingAdapter.StoreViewHolder>(Comparator()) {
 
@@ -34,6 +35,7 @@ class StorePagingAdapter: PagingDataAdapter<Data, StorePagingAdapter.StoreViewHo
     class StoreViewHolder(private val binding: RecyclerViewItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(store: Data){
             binding.tvTest.text = store.name
+            binding.imageView2.load(store.thumbnail)
         }
     }
 
