@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class StoreRepoImpl @Inject constructor(private val storeApi: StoreApi): StoreRepo {
     override fun getStoreData(header: String) = Pager(
-        config = PagingConfig(pageSize = 5, maxSize = 100, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 5, maxSize = 100, enablePlaceholders = false, initialLoadSize = 5, prefetchDistance = 1),
         pagingSourceFactory = {StorePagingSource(storeApi, header)}
     ).liveData
 

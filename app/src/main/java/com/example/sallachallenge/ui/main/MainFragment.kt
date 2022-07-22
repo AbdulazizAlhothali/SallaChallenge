@@ -1,12 +1,14 @@
 package com.example.sallachallenge.ui.main
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,15 +43,14 @@ class MainFragment : Fragment() {
         binding.rvMain.setHasFixedSize(true)
         binding.rvMain.adapter = adapter
         val devJson = Gson().fromJson(jsonString(context), DevelopersJson::class.java)
+        binding.dev = devJson
         viewModel.setHeader(devJson.id)
         viewModel.list.observe(viewLifecycleOwner){
             Log.e("MyStore","$it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         viewModel.getBrandData(devJson.id).observe(viewLifecycleOwner){
-            binding.tvDesc.text = it.brand.description
-            binding.ivCompany.load(it.brand.banner)
-            binding.ivLogo.load(it.brand.logo)
+            binding.brand = it.brand
         }
     }
 
@@ -60,5 +61,7 @@ class MainFragment : Fragment() {
         inputStream.close()
         return json
     }
+
+
 
 }
