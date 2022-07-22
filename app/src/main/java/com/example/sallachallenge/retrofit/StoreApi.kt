@@ -9,12 +9,12 @@ import retrofit2.http.Query
 
 interface StoreApi {
 
-    //@Headers("Store-Identifier: 1328842359")
+
     @GET("brands/259940351?")
     suspend fun getStoreData(@Header("Store-Identifier") header: String, @Query("page") page: Int, @Query("per_page") per_page: Int): BaseStoreData
 
 
-    @Headers("Store-Identifier: 1328842359")
+
     @GET("brands/259940351?")
-    suspend fun getBrandeData(): BrandData
+    suspend fun getBrandeData(@Header("Store-Identifier") header: String): BrandData
 }

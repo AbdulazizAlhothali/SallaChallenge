@@ -7,5 +7,5 @@ import com.example.sallachallenge.models.brand.BrandData
 
 interface StoreRepo {
     fun getStoreData(header: String): LiveData<PagingData<Data>>
-    suspend fun getBrandData(): BrandData
+    suspend fun getBrandData(header: String): BrandData
 }

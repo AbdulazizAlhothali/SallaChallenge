@@ -11,12 +11,12 @@ import javax.inject.Inject
 
 class StoreRepoImpl @Inject constructor(private val storeApi: StoreApi): StoreRepo {
     override fun getStoreData(header: String) = Pager(
-        config = PagingConfig(pageSize = 2, maxSize = 100, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 5, maxSize = 100, enablePlaceholders = false),
         pagingSourceFactory = {StorePagingSource(storeApi, header)}
     ).liveData
 
-    override suspend fun getBrandData() = withContext(Dispatchers.IO){
-        storeApi.getBrandeData()
+    override suspend fun getBrandData(header: String) = withContext(Dispatchers.IO){
+        storeApi.getBrandeData(header)
     }
 
 }

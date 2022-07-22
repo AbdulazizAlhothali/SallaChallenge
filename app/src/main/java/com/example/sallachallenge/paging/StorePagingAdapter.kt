@@ -1,6 +1,7 @@
 package com.example.sallachallenge.paging
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
@@ -36,6 +37,12 @@ class StorePagingAdapter: PagingDataAdapter<Data, StorePagingAdapter.StoreViewHo
         fun bind(store: Data){
             binding.tvTest.text = store.name
             binding.imageView2.load(store.thumbnail)
+            if (store.promotion.title != null){
+                binding.ivPromo.visibility = View.VISIBLE
+                binding.tvPromo.text = store.promotion.title
+            } else {
+                binding.ivPromo.visibility = View.GONE
+            }
         }
     }
 
