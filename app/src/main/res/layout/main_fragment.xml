@@ -10,7 +10,7 @@
             type="com.example.sallachallenge.models.brand.Brand" />
         <variable
             name="dev"
-            type="com.example.sallachallenge.models.DevelopersJson" />
+            type="com.example.sallachallenge.models.developersjson.DevelopersJson" />
     </data>
 
 

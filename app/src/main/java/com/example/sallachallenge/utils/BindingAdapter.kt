@@ -1,7 +1,10 @@
 package com.example.sallachallenge.utils
 
+import android.content.Context
+import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 
@@ -18,5 +21,11 @@ fun loadImage(image: ImageView, imageUri: String?){
     if (imageUri != null){
         image.load(imageUri)
     }
+}
 
+@BindingAdapter("changeFont")
+fun changeFont(textView: TextView, font:String){
+
+    val typeface = Typeface.createFromAsset(textView.context.assets,font)
+    textView.typeface = typeface
 }

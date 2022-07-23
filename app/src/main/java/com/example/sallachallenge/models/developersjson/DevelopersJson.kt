@@ -1,4 +1,4 @@
-package com.example.sallachallenge.models
+package com.example.sallachallenge.models.developersjson
 
 
 data class DevelopersJson(
