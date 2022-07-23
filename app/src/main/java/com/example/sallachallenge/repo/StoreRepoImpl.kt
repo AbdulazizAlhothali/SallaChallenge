@@ -3,6 +3,7 @@ package com.example.sallachallenge.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
+import com.example.sallachallenge.models.details.DetailsBase
 import com.example.sallachallenge.paging.StorePagingSource
 import com.example.sallachallenge.retrofit.StoreApi
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,10 @@ class StoreRepoImpl @Inject constructor(private val storeApi: StoreApi): StoreRe
 
     override suspend fun getBrandData(header: String) = withContext(Dispatchers.IO){
         storeApi.getBrandeData(header)
+    }
+
+    override suspend fun getDetailsData(header: String, productId: String) = withContext(Dispatchers.IO) {
+        storeApi.getDetailsData(header, productId)
     }
 
 }

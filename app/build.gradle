@@ -37,9 +37,7 @@ android {
     dataBinding {
         enabled = true
     }
-    buildFeatures {
-        viewBinding true
-    }
+
     sourceSets {
         main {
             assets {

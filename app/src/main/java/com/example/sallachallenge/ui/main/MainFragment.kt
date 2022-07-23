@@ -1,20 +1,16 @@
 package com.example.sallachallenge.ui.main
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.example.sallachallenge.databinding.MainFragmentBinding
-import com.example.sallachallenge.models.DevelopersJson
+import com.example.sallachallenge.models.developersjson.DevelopersJson
 import com.example.sallachallenge.paging.StorePagingAdapter
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,10 +38,11 @@ class MainFragment : Fragment() {
         binding.rvMain.layoutManager = GridLayoutManager(context,2)
         binding.rvMain.setHasFixedSize(true)
         binding.rvMain.adapter = adapter
+
         val devJson = Gson().fromJson(jsonString(context), DevelopersJson::class.java)
         binding.dev = devJson
-        viewModel.setHeader(devJson.id)
-        viewModel.list.observe(viewLifecycleOwner){
+
+        viewModel.getItemData(devJson.id).observe(viewLifecycleOwner){
             Log.e("MyStore","$it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }

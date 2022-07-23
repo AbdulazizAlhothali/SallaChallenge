@@ -11,16 +11,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: StoreRepo) : ViewModel()  {
-    private val jsonHeader = MutableLiveData("1328842359")
-    val list = jsonHeader.switchMap { header ->
-        repo.getStoreData(header).cachedIn(viewModelScope)
-    }
 
 
-    fun setHeader(header: String){
-        jsonHeader.value = header
-    }
-
+    fun getItemData(header: String) = repo.getStoreData(header).cachedIn(viewModelScope)
 
     fun getBrandData(header: String): LiveData<BrandData>{
         val brand = MutableLiveData<BrandData>()
@@ -28,7 +21,7 @@ class MainViewModel @Inject constructor(private val repo: StoreRepo) : ViewModel
             try {
                 brand.postValue(repo.getBrandData(header))
             } catch (e: Throwable ){
-                Log.e("Store", "com.example.sallachallenge.models.details.Data Problem : ${e.localizedMessage}")
+                Log.e("Store", "Problem : ${e.localizedMessage}")
             }
         }
         return brand
