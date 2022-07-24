@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sallachallenge.SharedViewModel
 import com.example.sallachallenge.databinding.MainFragmentBinding
 import com.example.sallachallenge.models.developersjson.DevelopersJson
 import com.example.sallachallenge.paging.StorePagingAdapter
@@ -22,7 +26,9 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: MainFragmentBinding
     private val viewModel by viewModels<MainViewModel>()
+    private val sharedViewModel by activityViewModels<SharedViewModel>()
     private lateinit var adapter: StorePagingAdapter
+    private lateinit var brandAdapter: BrandAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,21 +40,38 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = StorePagingAdapter()
-        binding.rvMain.layoutManager = GridLayoutManager(context,2)
-        binding.rvMain.setHasFixedSize(true)
-        binding.rvMain.adapter = adapter
+
 
         val devJson = Gson().fromJson(jsonString(context), DevelopersJson::class.java)
         binding.dev = devJson
-
+        adapter = StorePagingAdapter(devJson.font_family)
+        //binding.rvMain.adapter = adapter
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                if(position==0){
+                    return 2  //no of colums it show occupy
+                }
+                return  1
+            }
+        }
+        binding.rvMain.layoutManager = layoutManager
+        binding.rvMain.setHasFixedSize(true)
+        sharedViewModel.jsonDevValue(devJson)
         viewModel.getItemData(devJson.id).observe(viewLifecycleOwner){
             Log.e("MyStore","$it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         viewModel.getBrandData(devJson.id).observe(viewLifecycleOwner){
             binding.brand = it.brand
+            brandAdapter = BrandAdapter(listOf(it))
+            val ca = ConcatAdapter()
+            ca.addAdapter(brandAdapter)
+            ca.addAdapter(adapter)
+            binding.rvMain.adapter = ca
         }
+
+
     }
 
     private fun jsonString(context: Context?): String{
@@ -58,7 +81,4 @@ class MainFragment : Fragment() {
         inputStream.close()
         return json
     }
-
-
-
 }
