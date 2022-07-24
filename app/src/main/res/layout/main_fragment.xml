@@ -14,66 +14,28 @@
     </data>
 
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context=".ui.main.MainFragment">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/myConst"
             android:layout_width="match_parent"
             app:changeColor="@{dev.app_color}"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:context=".ui.main.MainFragment">
 
-
-            <ImageView
-                android:id="@+id/ivCompany"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:loadimage="@{brand.banner}"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
-                android:id="@+id/ivLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivCompany"
-                app:loadimage="@{brand.logo}"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tvDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{brand.description}"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMain"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
+                android:layout_width="410dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="2dp"
-                android:nestedScrollingEnabled="true"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:overScrollMode="always"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.777"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDesc" />
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+
 </layout>
