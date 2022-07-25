@@ -33,7 +33,7 @@ class DetailsAdapter(private val images: List<Images>): RecyclerView.Adapter<Det
 
     class DetailsViewHolder(private val binding: ImageSliderItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(image: Images){
-            binding.ivImage.load(image.url)
+            binding.image = image
         }
     }
 }

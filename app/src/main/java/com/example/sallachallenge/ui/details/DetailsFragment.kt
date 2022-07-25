@@ -53,7 +53,6 @@ class DetailsFragment : Fragment() {
                 Log.e("details", "${details.data}")
                 binding.vpDetails.adapter = adapter
                 binding.indicator.setViewPager(binding.vpDetails)
-                binding.imageView3.load(details.data.brand.logo)
             }
 
         }

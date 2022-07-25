@@ -9,7 +9,7 @@ import com.example.sallachallenge.R
 import com.example.sallachallenge.databinding.StaticItemBinding
 import com.example.sallachallenge.models.brand.BrandData
 
-class BrandAdapter (private val brand: List<BrandData>): RecyclerView.Adapter<BrandAdapter.BrandViewHolder>() {
+class BrandAdapter (private val brand: List<BrandData>, private val font: String): RecyclerView.Adapter<BrandAdapter.BrandViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandViewHolder {
@@ -17,7 +17,7 @@ class BrandAdapter (private val brand: List<BrandData>): RecyclerView.Adapter<Br
             LayoutInflater.from(parent.context),
             R.layout.static_item, parent, false
         )
-        return BrandViewHolder(bind)
+        return BrandViewHolder(bind, font)
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
@@ -31,9 +31,10 @@ class BrandAdapter (private val brand: List<BrandData>): RecyclerView.Adapter<Br
 
 
 
-    class BrandViewHolder(private val binding: StaticItemBinding): RecyclerView.ViewHolder(binding.root){
+    class BrandViewHolder(private val binding: StaticItemBinding, private val font: String): RecyclerView.ViewHolder(binding.root){
         fun bind(brandData: BrandData){
             binding.brand = brandData
+            binding.font = font
 
         }
     }
