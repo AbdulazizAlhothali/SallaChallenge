@@ -19,7 +19,6 @@ class StorePagingAdapter(private val font: String): PagingDataAdapter<Data, Stor
 
 
 
-
     override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null){
@@ -40,13 +39,14 @@ class StorePagingAdapter(private val font: String): PagingDataAdapter<Data, Stor
         fun bind(store: Data){
 
             binding.font = font
-            binding.tvTest.text = store.name
-            binding.imageView2.load(store.thumbnail)
+            binding.item = store
             if (store.promotion.title != null){
                 binding.ivPromo.visibility = View.VISIBLE
                 binding.tvPromo.text = store.promotion.title
+            } else {
+                binding.ivPromo.visibility = View.GONE
             }
-            binding.imageView2.setOnClickListener {
+            binding.root.setOnClickListener {
                 val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(store.id.toString())
                 binding.root.findNavController().navigate(action)
             }

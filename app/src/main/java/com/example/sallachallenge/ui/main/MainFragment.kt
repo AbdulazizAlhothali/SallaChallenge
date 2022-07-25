@@ -45,12 +45,11 @@ class MainFragment : Fragment() {
         val devJson = Gson().fromJson(jsonString(context), DevelopersJson::class.java)
         binding.dev = devJson
         adapter = StorePagingAdapter(devJson.font_family)
-        //binding.rvMain.adapter = adapter
         val layoutManager = GridLayoutManager(requireContext(), 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 if(position==0){
-                    return 2  //no of colums it show occupy
+                    return 2
                 }
                 return  1
             }
@@ -63,15 +62,12 @@ class MainFragment : Fragment() {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         viewModel.getBrandData(devJson.id).observe(viewLifecycleOwner){
-            binding.brand = it.brand
-            brandAdapter = BrandAdapter(listOf(it))
+            brandAdapter = BrandAdapter(listOf(it), devJson.font_family)
             val ca = ConcatAdapter()
             ca.addAdapter(brandAdapter)
             ca.addAdapter(adapter)
             binding.rvMain.adapter = ca
         }
-
-
     }
 
     private fun jsonString(context: Context?): String{
