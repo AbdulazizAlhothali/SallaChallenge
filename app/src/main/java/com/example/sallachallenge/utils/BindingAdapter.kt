@@ -24,7 +24,10 @@ fun loadImage(image: ImageView, imageUri: String?){
 }
 
 @BindingAdapter("changeFont")
-fun changeFont(textView: TextView, font:String){
-    val typeface = Typeface.createFromAsset(textView.context.assets,"myfonts/${font}.ttf")
-    textView.typeface = typeface
+fun changeFont(textView: TextView, font:String?){
+    if (font != null){
+        val typeface = Typeface.createFromAsset(textView.context.assets,"myfonts/${font}.ttf")
+        textView.typeface = typeface
+    }
+
 }

@@ -23,7 +23,7 @@ class StorePagingSource(private val storeApi: StoreApi, private val header: Stri
             val response = storeApi.getStoreData(header,position, params.loadSize)
             return LoadResult.Page(
                 data = response.data,
-                prevKey = if (position == 1) null else position - 1,
+                prevKey = if (response.cursor.previous == null) null else position - 1,
                 nextKey = if(response.cursor.next == null) null else position + 1
             )
         } catch (e: IOException){
