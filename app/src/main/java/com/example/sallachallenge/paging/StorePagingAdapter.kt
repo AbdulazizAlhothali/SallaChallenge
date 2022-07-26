@@ -27,6 +27,10 @@ class StorePagingAdapter(private val font: String): PagingDataAdapter<Data, Stor
 
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) 0 else 1
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
         val bind = DataBindingUtil.inflate<RecyclerViewItemBinding>(
             LayoutInflater.from(parent.context),
