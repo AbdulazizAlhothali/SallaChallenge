@@ -7,18 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.sallachallenge.SharedViewModel
 import com.example.sallachallenge.databinding.MainFragmentBinding
 import com.example.sallachallenge.models.developersjson.DevelopersJson
 import com.example.sallachallenge.paging.StoreLoadStateAdapter
 import com.example.sallachallenge.paging.StorePagingAdapter
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.InputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -26,10 +24,10 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: MainFragmentBinding
     private val viewModel by viewModels<MainViewModel>()
-    private val sharedViewModel by activityViewModels<SharedViewModel>()
     private lateinit var adapter: StorePagingAdapter
     private lateinit var brandAdapter: BrandAdapter
-
+    @Inject
+    lateinit var devJson: DevelopersJson
 
 
     override fun onCreateView(
@@ -43,24 +41,24 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val headerState = StoreLoadStateAdapter{
+
+        val headerState = StoreLoadStateAdapter {
             adapter.retry()
         }
-        val footerState = StoreLoadStateAdapter{
+        val footerState = StoreLoadStateAdapter {
             adapter.retry()
         }
-        val devJson = Gson().fromJson(jsonString(context), DevelopersJson::class.java)
+
         binding.dev = devJson
         adapter = StorePagingAdapter(devJson.font_family)
         val layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.rvMain.layoutManager = layoutManager
         binding.rvMain.setHasFixedSize(true)
-        sharedViewModel.jsonDevValue(devJson)
         fetchData(devJson, headerState, footerState, layoutManager)
 
-        viewModel.error.observe(viewLifecycleOwner){
-            if (it != null){
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (it != null) {
                 binding.btRetry.visibility = View.VISIBLE
                 binding.btRetry.setOnClickListener {
                     fetchData(devJson, headerState, footerState, layoutManager)
@@ -75,7 +73,7 @@ class MainFragment : Fragment() {
         devJson: DevelopersJson,
         headerState: StoreLoadStateAdapter,
         footerState: StoreLoadStateAdapter,
-        layoutManager: GridLayoutManager
+        layoutManager: GridLayoutManager,
     ) {
         viewModel.getItemData(devJson.id).observe(viewLifecycleOwner) {
             Log.e("MyStore", "$it")
@@ -110,8 +108,8 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun jsonString(context: Context?): String{
-        val json :String?
+    private fun jsonString(context: Context?): String {
+        val json: String?
         val inputStream: InputStream = context?.assets!!.open("Developers.json")
         json = inputStream.bufferedReader().use { it.readText() }
         inputStream.close()

@@ -3,7 +3,6 @@ package com.example.sallachallenge.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
-import com.example.sallachallenge.models.details.DetailsBase
 import com.example.sallachallenge.paging.StorePagingSource
 import com.example.sallachallenge.retrofit.StoreApi
 import kotlinx.coroutines.Dispatchers
