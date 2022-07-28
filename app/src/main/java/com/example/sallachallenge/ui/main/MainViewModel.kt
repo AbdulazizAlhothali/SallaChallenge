@@ -27,6 +27,7 @@ class MainViewModel @Inject constructor(private val repo: StoreRepo) : ViewModel
             } catch (e: Throwable ){
                 Log.e("Store", "Problem : ${e.localizedMessage}")
                 _error.value = "There's error"
+
             }
         }
         return brand
