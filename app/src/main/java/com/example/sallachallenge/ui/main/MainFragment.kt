@@ -107,13 +107,4 @@ class MainFragment : Fragment() {
         }
     }
 
-
-    private fun jsonString(context: Context?): String {
-        val json: String?
-        val inputStream: InputStream = context?.assets!!.open("Developers.json")
-        json = inputStream.bufferedReader().use { it.readText() }
-        inputStream.close()
-        return json
-    }
-
 }
