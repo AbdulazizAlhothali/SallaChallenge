@@ -59,11 +59,13 @@ class MainFragment : Fragment() {
 
         viewModel.error.observe(viewLifecycleOwner) {
             if (it != null) {
+                binding.progress.visibility = View.VISIBLE
                 binding.btRetry.visibility = View.VISIBLE
                 binding.btRetry.setOnClickListener {
                     fetchData(devJson, headerState, footerState, layoutManager)
                 }
             } else {
+                binding.progress.visibility = View.GONE
                 binding.btRetry.visibility = View.GONE
             }
         }

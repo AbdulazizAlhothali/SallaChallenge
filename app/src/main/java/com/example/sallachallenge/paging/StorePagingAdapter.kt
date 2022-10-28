@@ -9,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.sallachallenge.R
 import com.example.sallachallenge.databinding.RecyclerViewItemBinding
 import com.example.sallachallenge.models.items.Data
