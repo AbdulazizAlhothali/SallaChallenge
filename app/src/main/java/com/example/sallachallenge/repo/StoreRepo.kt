@@ -5,11 +5,13 @@ import androidx.paging.PagingData
 import com.example.sallachallenge.models.items.Data
 import com.example.sallachallenge.models.brand.BrandData
 import com.example.sallachallenge.models.details.DetailsBase
+import com.example.sallachallenge.utils.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface StoreRepo {
-    fun getStoreData(header: String): LiveData<PagingData<Data>>
+    fun getStoreData(header: String): Flow<PagingData<Data>>
 
-    suspend fun getBrandData(header: String): BrandData
+    suspend fun getBrandData(header: String): Resource<BrandData>
 
-    suspend fun getDetailsData(header: String, productId: String): DetailsBase
+    suspend fun getDetailsData(header: String, productId: String): Resource<DetailsBase>
 }

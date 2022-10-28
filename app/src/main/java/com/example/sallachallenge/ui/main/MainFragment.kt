@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sallachallenge.databinding.MainFragmentBinding
@@ -26,6 +28,7 @@ class MainFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var adapter: StorePagingAdapter
     private lateinit var brandAdapter: BrandAdapter
+
     @Inject
     lateinit var devJson: DevelopersJson
 
@@ -55,15 +58,23 @@ class MainFragment : Fragment() {
 
         binding.rvMain.layoutManager = layoutManager
         binding.rvMain.setHasFixedSize(true)
+
         fetchData(devJson, headerState, footerState, layoutManager)
+        viewModel.getBrandData(devJson.id)
+
 
         viewModel.error.observe(viewLifecycleOwner) {
             if (it != null) {
+                binding.progress.visibility = View.VISIBLE
                 binding.btRetry.visibility = View.VISIBLE
+                binding.rvMain.visibility = View.GONE
                 binding.btRetry.setOnClickListener {
+                    viewModel.getBrandData(devJson.id)
                     fetchData(devJson, headerState, footerState, layoutManager)
                 }
             } else {
+                binding.rvMain.visibility = View.VISIBLE
+                binding.progress.visibility = View.GONE
                 binding.btRetry.visibility = View.GONE
             }
         }
@@ -76,10 +87,10 @@ class MainFragment : Fragment() {
         layoutManager: GridLayoutManager,
     ) {
         viewModel.getItemData(devJson.id).observe(viewLifecycleOwner) {
-            Log.e("MyStore", "$it")
+            Log.e("MyStore", "here $it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-        viewModel.getBrandData(devJson.id).observe(viewLifecycleOwner) {
+        viewModel.state.observe(viewLifecycleOwner) {
             brandAdapter = BrandAdapter(listOf(it), devJson.font_family)
             val ca = ConcatAdapter()
             ca.addAdapter(brandAdapter)
@@ -105,6 +116,6 @@ class MainFragment : Fragment() {
                 }
             }
         }
-    }
 
+    }
 }
