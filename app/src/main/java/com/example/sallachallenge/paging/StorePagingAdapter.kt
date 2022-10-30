@@ -14,41 +14,41 @@ import com.example.sallachallenge.databinding.RecyclerViewItemBinding
 import com.example.sallachallenge.models.items.Data
 import com.example.sallachallenge.ui.main.MainFragmentDirections
 
-class StorePagingAdapter(private val font: String): PagingDataAdapter<Data, StorePagingAdapter.StoreViewHolder>(Comparator()) {
-
+class StorePagingAdapter(private val font: String) :
+    PagingDataAdapter<Data, StorePagingAdapter.StoreViewHolder>(Comparator()) {
 
 
     override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
         val item = getItem(position)
-        if (item != null){
+        if (item != null) {
             holder.bind(item)
         }
 
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
         val bind = DataBindingUtil.inflate<RecyclerViewItemBinding>(
             LayoutInflater.from(parent.context),
             R.layout.recycler_view_item, parent, false
         )
-        return StoreViewHolder(bind,font)
+        return StoreViewHolder(bind, font)
     }
 
-    class StoreViewHolder(private val binding: RecyclerViewItemBinding, private val font: String): RecyclerView.ViewHolder(binding.root){
-        fun bind(store: Data){
+    class StoreViewHolder(private val binding: RecyclerViewItemBinding, private val font: String) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(store: Data) {
 
             binding.font = font
             binding.item = store
-            if (store.promotion.title != null){
+            if (store.promotion.title != null) {
                 binding.ivPromo.visibility = View.VISIBLE
                 binding.tvPromo.text = store.promotion.title
             } else {
                 binding.ivPromo.visibility = View.GONE
             }
             binding.root.setOnClickListener {
-                val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(store.id.toString())
+                val action =
+                    MainFragmentDirections.actionMainFragmentToDetailsFragment(store.id.toString())
                 binding.root.findNavController().navigate(action)
             }
 

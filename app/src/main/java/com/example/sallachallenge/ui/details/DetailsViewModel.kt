@@ -7,21 +7,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sallachallenge.models.details.DetailsBase
 import com.example.sallachallenge.repo.StoreRepo
+import com.example.sallachallenge.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(private val repo: StoreRepo)  : ViewModel() {
-    fun getDetailsData(header: String, productId: String): LiveData<DetailsBase> {
-        val details = MutableLiveData<DetailsBase>()
+
+    private val _error = MutableLiveData<String?>(null)
+    val error: LiveData<String?> = _error
+    private val _state = MutableLiveData<DetailsBase>()
+    val state = _state
+
+    fun getDetailsData(header: String, productId: String) {
+
         viewModelScope.launch {
-            try {
-                details.postValue(repo.getDetailsData(header, productId))
-            } catch (e: Throwable ){
-                Log.e("Store", "Problem : ${e.localizedMessage}")
+            when(val result = repo.getDetailsData(header, productId)){
+                is Resource.Success -> {
+                    _state.postValue(result.data)
+                    _error.value = null
+                }
+                is Resource.Error -> {
+                    _error.value = result.message
+                }
             }
         }
-        return details
+
     }
 }

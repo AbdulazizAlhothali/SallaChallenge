@@ -31,6 +31,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="2dp"
                 android:overScrollMode="always"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.777"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,12 +41,17 @@
                 android:id="@+id/progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/btRetry"
+
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.884" />
+
+                app:layout_constraintVertical_bias="0.89" />
+
 
             <Button
                 android:id="@+id/btRetry"
@@ -57,6 +63,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rvMain" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="TextView"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/btRetry"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

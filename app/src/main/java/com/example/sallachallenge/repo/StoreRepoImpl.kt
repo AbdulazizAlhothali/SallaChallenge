@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.example.sallachallenge.paging.StorePagingSource
 import com.example.sallachallenge.retrofit.StoreApi
+import com.example.sallachallenge.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -13,14 +14,23 @@ class StoreRepoImpl @Inject constructor(private val storeApi: StoreApi): StoreRe
     override fun getStoreData(header: String) = Pager(
         config = PagingConfig(pageSize = 5, initialLoadSize = 5, maxSize = 20, enablePlaceholders = false),
         pagingSourceFactory = {StorePagingSource(storeApi, header)}
-    ).liveData
+    ).flow
 
     override suspend fun getBrandData(header: String) = withContext(Dispatchers.IO){
-        storeApi.getBrandeData(header)
+        return@withContext try {
+            Resource.Success(storeApi.getBrandeData(header))
+        } catch (e: Exception){
+            Resource.Error(e.message ?: "An unknown error occurred")
+        }
     }
 
     override suspend fun getDetailsData(header: String, productId: String) = withContext(Dispatchers.IO) {
-        storeApi.getDetailsData(header, productId)
+        return@withContext try {
+            Resource.Success(storeApi.getDetailsData(header, productId))
+        } catch (e: Exception){
+            Resource.Error(e.message ?: "An unknown error occurred")
+        }
+
     }
 
 }
