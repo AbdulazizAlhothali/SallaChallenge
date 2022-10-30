@@ -60,7 +60,7 @@ class MainFragment : Fragment() {
         binding.rvMain.setHasFixedSize(true)
 
         fetchData(devJson, headerState, footerState, layoutManager)
-        viewModel.getBrandData(devJson.id)
+
 
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -68,14 +68,11 @@ class MainFragment : Fragment() {
                 binding.progress.visibility = View.VISIBLE
                 binding.btRetry.visibility = View.VISIBLE
                 binding.rvMain.visibility = View.GONE
+                binding.textView8.visibility = View.VISIBLE
+                binding.textView8.text = it
                 binding.btRetry.setOnClickListener {
-                    viewModel.getBrandData(devJson.id)
                     fetchData(devJson, headerState, footerState, layoutManager)
                 }
-            } else {
-                binding.rvMain.visibility = View.VISIBLE
-                binding.progress.visibility = View.GONE
-                binding.btRetry.visibility = View.GONE
             }
         }
     }
@@ -86,11 +83,18 @@ class MainFragment : Fragment() {
         footerState: StoreLoadStateAdapter,
         layoutManager: GridLayoutManager,
     ) {
+        viewModel.getBrandData(devJson.id)
         viewModel.getItemData(devJson.id).observe(viewLifecycleOwner) {
             Log.e("MyStore", "here $it")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         viewModel.state.observe(viewLifecycleOwner) {
+            if (it.success){
+                binding.rvMain.visibility = View.VISIBLE
+                binding.textView8.visibility = View.GONE
+                binding.progress.visibility = View.GONE
+                binding.btRetry.visibility = View.GONE
+            }
             brandAdapter = BrandAdapter(listOf(it), devJson.font_family)
             val ca = ConcatAdapter()
             ca.addAdapter(brandAdapter)
