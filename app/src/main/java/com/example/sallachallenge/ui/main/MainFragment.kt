@@ -74,6 +74,7 @@ class MainFragment : Fragment() {
                     fetchData(devJson, headerState, footerState, layoutManager)
                 }
 
+            }
         }
     }
 
@@ -89,14 +90,15 @@ class MainFragment : Fragment() {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
         viewModel.state.observe(viewLifecycleOwner) {
+
+            brandAdapter = BrandAdapter(listOf(it), devJson.font_family)
+            val ca = ConcatAdapter()
             if (it.success){
                 binding.rvMain.visibility = View.VISIBLE
                 binding.textView8.visibility = View.GONE
                 binding.progress.visibility = View.GONE
                 binding.btRetry.visibility = View.GONE
             }
-            brandAdapter = BrandAdapter(listOf(it), devJson.font_family)
-            val ca = ConcatAdapter()
             ca.addAdapter(brandAdapter)
             ca.addAdapter(
                 adapter.withLoadStateHeaderAndFooter(
