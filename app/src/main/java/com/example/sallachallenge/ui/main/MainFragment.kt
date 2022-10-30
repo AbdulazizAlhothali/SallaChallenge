@@ -73,7 +73,7 @@ class MainFragment : Fragment() {
                 binding.btRetry.setOnClickListener {
                     fetchData(devJson, headerState, footerState, layoutManager)
                 }
-            }
+
         }
     }
 
